@@ -35,10 +35,10 @@ delete_string:
 
    STR   X30, [SP, #-16]!  // PUSH LR
 
-    MOV X19, X0			   // copy headPtr from X0 to X19
-	LDR X19, [X19]	       // load headPtr's address into X19
+    MOV X19, X0	           // copy headPtr from X0 to X19
+    LDR X19, [X19]	   // load headPtr's address into X19
     
-	MOV X20, X1 		   // copy given index from X1 to X20
+    MOV X20, X1            // copy given index from X1 to X20
     LDR X21, #0            // "initialize" X21 with 0 for traversal (int i = 0;)
 
     CMP X20, #0            // Compare given index with 0 (checking if it's the 1st index)
@@ -59,27 +59,13 @@ traverse:
     LDR X22, [X19, #8]	   // X22 (temp) = next node
     MOV X19, X22           // X19 = temp
 
-	ADD X21, X21, #1	   // i++
+    ADD X21, X21, #1	   // i++
 
-	CMP X19, #0			   // Compare X19 with 0 (which is ascii for null)
-	BNE traverse	       // Branch back to traverse label if not null
-	B   traverse           // Jump to endTravrs label
+    CMP X19, #0			   // Compare X19 with 0 (which is ascii for null)
+    BNE traverse	       // Branch back to traverse label if not null
+    B   traverse           // Jump to endTravrs label
 
 endTravrs:
-
-/******* NOT RELEVANT *************************************************************/
-	MOV X1, #0         // Counter
-	LDRB W2,[X0], #1   // W2 holds the first byte of the string
-
-traverse:
-	CMP W2, #0         // Compare W2 with 0 (which is ascii for null char.)
-	B.EQ bottom        // Jump to bottom label if W2 = 0
-	LDRB W2,[X0], #1   // Move onto the next byte in the string
-	ADD X1,X1,#1       // Increment the counter (++)
-	B   traverse       // Jump to traverse label
-
-bottom:
-	MOV X0,X1          // Move the counter (which is the string's length) to X0
 	
 	// POPPED IN REVERSE ORDER (LIFO)
 	LDR   X30, [SP], #16       // POP
