@@ -31,39 +31,39 @@ delete_string:
 	STR   X27, [SP, #-16]!     // PUSH
 	STR   X28, [SP, #-16]!     // PUSH
 	STR   X29, [SP, #-16]!     // PUSH
-   // END OF PRESERVING AAPCS REGISTERS
+        // END OF PRESERVING AAPCS REGISTERS
 
-   STR   X30, [SP, #-16]!  // PUSH LR
+	STR   X30, [SP, #-16]!  // PUSH LR
 
-    MOV X19, X0	           // copy headPtr from X0 to X19
-    LDR X19, [X19]	   // load headPtr's address into X19
+	MOV X19, X0	       // copy headPtr from X0 to X19
+	LDR X19, [X19]	       // load headPtr's address into X19
     
-    MOV X20, X1            // copy given index from X1 to X20
-    LDR X21, #0            // "initialize" X21 with 0 for traversal (int i = 0;)
+	MOV X20, X1            // copy given index from X1 to X20
+	LDR X21, #0            // "initialize" X21 with 0 for traversal (int i = 0;)
 
-    CMP X20, #0            // Compare given index with 0 (checking if it's the 1st index)
-    BNE checkLast          // Jump to checkLast label if given index is not the 1st
+	CMP X20, #0            // Compare given index with 0 (checking if it's the 1st index)
+	BNE checkLast          // Jump to checkLast label if given index is not the 1st
 // If (given index == first index) {
     // code for deleting head and pointing to new head
 // }
 checkLast:
-    BL data_count          // Branch to data_count to check number of nodes
-    SUB X1, X1, #1         // X1 (has num of nodes) - 1 == last index in linked list
+	BL data_count          // Branch to data_count to check number of nodes
+	SUB X1, X1, #1         // X1 (has num of nodes) - 1 == last index in linked list
 
-    CMP X20, X1            // Compare given index with last index
-    BNE traverse           // Jump to traverse label if given index is not the last index
+	CMP X20, X1            // Compare given index with last index
+	BNE traverse           // Jump to traverse label if given index is not the last index
 // If (given index == last index) {
     // code for deleting tail and pointing to new tail
 // }
 traverse:
-    LDR X22, [X19, #8]	   // X22 (temp) = next node
-    MOV X19, X22           // X19 = temp
+    	LDR X22, [X19, #8]     // X22 (temp) = next node
+    	MOV X19, X22           // X19 = temp
 
-    ADD X21, X21, #1	   // i++
+    	ADD X21, X21, #1       // i++
 
-    CMP X19, #0			   // Compare X19 with 0 (which is ascii for null)
-    BNE traverse	       // Branch back to traverse label if not null
-    B   traverse           // Jump to endTravrs label
+    	CMP X19, #0	       // Compare X19 with 0 (which is ascii for null)
+    	BNE traverse	       // Branch back to traverse label if not null
+    	B   endTravrs          // Jump to endTravrs label
 
 endTravrs:
 	
